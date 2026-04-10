@@ -29,7 +29,7 @@ export default {
                     preview: {
                         select: {
                             title: 'work.title',
-                            media: 'image'
+                            media: 'wide'
                         },
                         prepare({ title, media }) {
                             return {
@@ -46,7 +46,7 @@ export default {
                     fields: [
                         { name: 'left', type: 'image' },
                         { name: 'right', type: 'image' },
-                        { name: 'work', type: 'reference', to: [{ type: 'work' }] }
+                        { name: 'work', type: 'reference', to: [{ type: 'work' }], validation: Rule => Rule.required(), }
                     ],
                     preview: {
                         select: {
@@ -61,6 +61,44 @@ export default {
                         }
                     }
                 }
+            ],
+			options: {
+				layout: 'list',
+			},
+		},
+		{
+			name: 'imagesMobile',
+			type: 'array',
+			of: [
+                {
+                    name: 'imageMobile',
+                    type: 'object',
+                    icon: ImageIcon,
+                    fields: [
+                        {
+							name: 'image',
+							type: 'image'
+						},
+                        {
+							name: 'work',
+							type: 'reference',
+							to: [{ type: 'work' }],
+							validation: Rule => Rule.required(),
+						}
+                    ],
+                    preview: {
+                        select: {
+                            title: 'work.title',
+                            media: 'image'
+                        },
+                        prepare({ title, media }) {
+                            return {
+                                title: `Image mobile: ${title || 'No work selected'}`,
+                                media
+                            }
+                        }
+                    }
+                },
             ],
 			options: {
 				layout: 'list',

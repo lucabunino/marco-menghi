@@ -1,0 +1,36 @@
+@font-face {
+  font-family: "texgyretermes";
+  src: url("/fonts/texgyretermes-regular-webfont.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+/* Typography */
+.te {
+	&,
+	&-s,
+	&-m,
+	&-l {
+		font-family: "texgyretermes", 'Times New Roman', Times, serif;
+		font-optical-sizing: auto;
+		font-style: normal;
+	}
+
+	&-s	{ font-size: 0.786rem; letter-spacing: 0.01em; line-height: 1.2; font-weight: 400; }
+	&-m	{ font-size: 1rem; letter-spacing: 0em; line-height: 1.15; font-weight: 400; }
+	&-l { font-size: 2.143rem; letter-spacing: -0.01em; line-height: 1; font-weight: 400; }
+
+	@media (width <= 1080px) {
+		&-s	{ font-size: 0.786rem; letter-spacing: 0.01em; line-height: 1.2; font-weight: 400; }
+		&-m, &-l { font-size: 1.142rem; letter-spacing: 0em; line-height: 1.15; font-weight: 400; }
+	}
+}
+.bold			{ font-weight: 700; }
+.uppercase		{
+	text-transform: uppercase;
+	-moz-font-feature-settings: "lnum";
+	-webkit-font-feature-settings: "lnum";
+	font-feature-settings: "lnum";
+}
+.titlecase		{ text-transform: capitalize; }

@@ -1,0 +1,29 @@
+{
+	"name": "frontend",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^7.0.0",
+		"@sveltejs/kit": "^2.50.2",
+		"@sveltejs/vite-plugin-svelte": "^6.2.4",
+		"autoprefixer": "^10.4.27",
+		"postcss": "^8.5.8",
+		"postcss-nesting": "^14.0.0",
+		"sass-embedded": "^1.98.0",
+		"svelte": "^5.54.0",
+		"svelte-bricks": "^0.4.1",
+		"vite": "^7.3.1"
+	},
+	"dependencies": {
+		"@portabletext/svelte": "^3.0.1",
+		"@sanity/client": "^7.20.0",
+		"@sanity/image-url": "^2.0.3"
+	}
+}
