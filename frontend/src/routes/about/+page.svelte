@@ -5,7 +5,6 @@
     import PortableTextStyle from '$lib/components/portableTextStyles/PortableTextStyle.svelte';
 	
     let { data } = $props();
-	$inspect(data)
 </script>
 
 <Head seo={data.seoSingle} />
@@ -91,7 +90,6 @@
 				<div class="exhibitions portableText">
 					<h2>Publications</h2>
 					{#each data.about.publications as publication, i}
-					{$inspect(publication)}
 						{#if publication.href || publication.pdf}
 							<a class="pubblication hover-underline" href={publication.href ? publication.href : publication.pdf} target="_blank" rel="noopener noreferrer">{publication.title}</a>
 						{:else}
@@ -104,7 +102,7 @@
 	</div>
 </main>
 
-<style>
+<style class="scss">
     #about {
 		display: flex;
 		column-gap: var(--sp-6);
