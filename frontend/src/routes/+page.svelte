@@ -68,9 +68,9 @@
 
 <main id="homepage" onmousemove={handleMouseMove}>
 {#if innerWidth.current >= 1080}
-	<p style="position: fixed; left:0; top:50%; z-index:999; background-color: var(--white); padding: 4px; font-family: monospace;">
+	<!-- <p style="position: fixed; left:0; top:50%; z-index:999; background-color: var(--white); padding: 4px; font-family: monospace;">
 		{index}/{step}
-	</p>
+	</p> -->
     {#each images as image, i}
         {@const isPast = i < index}
         {@const isCurrent = i === index}
