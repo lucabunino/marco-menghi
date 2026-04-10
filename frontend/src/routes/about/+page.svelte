@@ -1,6 +1,6 @@
 <script>
 	import Head from '$lib/components/Head.svelte';
-	import { urlFor } from '$lib/utils/image';
+	import { urlFor } from '$lib/utils/image.js';
     import { PortableText } from '@portabletext/svelte';
     import PortableTextStyle from '$lib/components/portableTextStyles/PortableTextStyle.svelte';
 	
