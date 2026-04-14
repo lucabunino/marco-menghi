@@ -72,12 +72,14 @@
 	<main id="work" onclick={handleClick}>
 		<div class="indicator">
 			<h1 class="title">{work.title}
-				<button class="moreInfo-switch-mobile" onclick={(e) => { e.stopPropagation(); toggleMoreInfo(); }}>
-					<div class="icon {moreInfo ? 'active' : ''}">
-						<div class="line horizontal"></div>
-						<div class="line vertical"></div>
-					</div>
-				</button>
+				{#if work.moreInfo}
+					<button class="moreInfo-switch-mobile" onclick={(e) => { e.stopPropagation(); toggleMoreInfo(); }}>
+						<div class="icon {moreInfo ? 'active' : ''}">
+							<div class="line horizontal"></div>
+							<div class="line vertical"></div>
+						</div>
+					</button>
+				{/if}
 			</h1>
 			{#if work.images}   
 				<span class="index">{index+1}/{work.images.length}</span>

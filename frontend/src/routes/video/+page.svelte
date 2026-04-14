@@ -1,5 +1,6 @@
 <script>
     import Head from '$lib/components/Head.svelte';
+    import Image from '$lib/components/Image.svelte';
     import { urlFor } from '$lib/utils/image.js';
     import { innerWidth, innerHeight } from 'svelte/reactivity/window';
     
@@ -47,12 +48,9 @@
     tabindex="0"
 >
     {#if hasVideo}
-        <img 
-            class="overlay" 
-            class:hidden={hasStarted} 
-            src={urlFor(currentPoster).url()} 
-            alt="Poster" 
-        />
+		<div class="overlay" class:hidden={hasStarted}>
+			<Image image={currentPoster} />
+		</div>
         
         <video 
             bind:this={desktopVid}
@@ -90,14 +88,14 @@
         cursor: pointer;
 
         .play-indicator {
-            position: absolute; // Changed from fixed to absolute relative to #video
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%); // Fixed typo
             color: white;
             mix-blend-mode: difference;
             width: var(--sp-60);
-            z-index: 20; // Must be higher than overlay (10)
+            z-index: 3;
             pointer-events: none;
             transition: opacity 0.3s ease;
 
@@ -111,12 +109,11 @@
         .overlay {
             position: absolute;
             inset: 0;
-            z-index: 10;
-            transition: opacity 0.8s ease; // Use ease for smoothness
+            z-index: 2;
+            transition: var(--transition);
             pointer-events: none;
             width: 100%;
             height: 100%;
-            object-fit: cover;
 
             &.hidden {
                 opacity: 0;
@@ -128,9 +125,9 @@
             inset: 0;
             width: 100vw;
             height: 100dvh;
-            object-fit: cover;
             pointer-events: none;
-            z-index: 1; // Base layer
+            z-index: 1;
+			object-fit: cover;
             
             &.horizontal {
                 display: block;
