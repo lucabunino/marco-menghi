@@ -4,7 +4,7 @@
     import { innerWidth } from 'svelte/reactivity/window';
     import { goto } from '$app/navigation';
     import { PortableText } from '@portabletext/svelte';
-    import PortableTextStyle from '$lib/components/portableTextStyles/portableTextStyle.svelte';
+    import PortableTextStyle from '$lib/components/portableTextStyles/PortableTextStyle.svelte'; 
     import { page } from '$app/state';
 
     let { data } = $props()
