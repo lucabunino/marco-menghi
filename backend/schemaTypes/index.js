@@ -2,6 +2,7 @@ import homepage from './homepage'
 import work from './work'
 import about from './about'
 import client from './client'
+import video from './video'
 import city from './city'
 import seo from './seo'
 import cookies from './cookies'
@@ -13,6 +14,7 @@ export const schemaTypes = [
 	about,
 	client,
 	city,
+	video,
 	seo,
 	cookies,
 	privacy

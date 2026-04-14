@@ -19,7 +19,9 @@ $colors: (
 	--sp-30: 2.143rem;
 	--sp-40: 2.857rem;
 	--sp-50: 3.571rem;
+	--sp-60: 4.256rem;
 	--sp-100: 7.143rem;
+	--sp-168: 12rem;
 
 	@media (width <= 1080px) {
 		--headerHeight: calc(var(--sp-40) + var(--sp-20) + 1.142rem*1.15);

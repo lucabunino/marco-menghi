@@ -4,7 +4,7 @@
     import { innerWidth } from 'svelte/reactivity/window';
     import { goto } from '$app/navigation';
     import { PortableText } from '@portabletext/svelte';
-    import PortableTextStyle from '$lib/components/portableTextStyles/PortableTextStyle.svelte';
+    import PortableTextStyle from '$lib/components/portableTextStyles/portableTextStyle.svelte';
     import { page } from '$app/state';
 
     let { data } = $props()
@@ -22,14 +22,16 @@
             if (work.images && index < work.images.length - 1) {
                 goto(`?i=${index + 2}`, { keepFocus: true, noScroll: true });
             } else if (work.next) {
-                goto(`/works/${work.next.slug.current}?i=1`);
+                // goto(`/works/${work.next.slug.current}?i=1`);
+                goto(`/works`);
             }
         } else if (direction === 'prev') {
             if (work.images && index > 0) {
                 goto(`?i=${index}`, { keepFocus: true, noScroll: true });
             } else if (work.prev) {
                 const lastDisplayIndex = work.prev.imagesCount || 1;
-                goto(`/works/${work.prev.slug.current}?i=${lastDisplayIndex}`);
+                // goto(`/works/${work.prev.slug.current}?i=${lastDisplayIndex}`);
+                goto(`/works`);
             }
         }
     }

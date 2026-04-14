@@ -16,25 +16,28 @@
 
 	function nextStep() {
         const isWide = images[index].wide;
-        if (isWide || step === 1) {
+
+        if (isWide) {
             index = (index + 1) % images.length;
-            step = 0;
+            step = images[index].wide ? 0 : 1; 
         } else {
-            step = 1;
+            if (step === 0) {
+                step = 1;
+            } else {
+                index = (index + 1) % images.length;
+                step = 0;
+            }
         }
     }
 
-	function prevStep() {
-        if (index === 0 && step === 0) return; // Inizio raggiunto
+    function prevStep() {
+        if (index === 0 && step === 0) return;
 
-        const isWide = images[index].wide; // Nota: controlliamo l'immagine corrente o precedente? 
-        // Per semplicità guardiamo dove siamo:
         if (step === 1) {
             step = 0;
         } else {
-            // Dobbiamo tornare al progetto precedente
             index = (index - 1 + images.length) % images.length;
-            // Se il progetto precedente è wide, lo step è 0, altrimenti è 1 (mostra entrambi)
+            const prevWasWide = images[(index - 1 + images.length) % images.length].wide;
             step = images[index].wide ? 0 : 1;
         }
     }
@@ -52,12 +55,14 @@
             lastPos = { x: clientX, y: clientY };
             return;
         }
-        totalDistance += Math.abs(clientX - lastPos.x) + Math.abs(clientY - lastPos.y);
+        const dx = clientX - lastPos.x;
+        const dy = clientY - lastPos.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        totalDistance += distance;
         lastPos = { x: clientX, y: clientY };
-
         if (totalDistance >= innerWidth.current / 3) {
             totalDistance = 0;
-            nextStep(); // Usa la nuova funzione
+            nextStep();
         }
     }
 </script>

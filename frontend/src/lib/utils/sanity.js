@@ -142,3 +142,17 @@ export async function getWork(slug) {
 		}
 		`, { slug });
 }
+export async function getVideo() {
+    return await client.fetch(
+        `*[_type == "video" && !(_id in path('drafts.**'))][0] {
+			videoDesktop {
+				"url": video.asset->url,
+				poster { asset->{ _id, _ref, _type, title, description, altText, metadata { dimensions, lqip } } },
+			},
+			videoMobile {
+				"url": video.asset->url,
+				poster { asset->{ _id, _ref, _type, title, description, altText, metadata { dimensions, lqip } } },
+			}
+        }`
+    );
+}

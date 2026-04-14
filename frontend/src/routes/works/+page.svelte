@@ -6,6 +6,7 @@
 	import Masonry from 'svelte-bricks'
     import Image from '$lib/components/Image.svelte';
     import { browser } from '$app/environment';
+    import { fade } from 'svelte/transition';
 
     let { data } = $props();
 	let items = $derived(
@@ -19,22 +20,34 @@
 		innerWidth.current > 768 ? innerWidth.current/4 :
 		innerWidth.current > 360 ? innerWidth.current/3 :
 		innerWidth.current/2)
-	let width = $state(0), height = $state(0), gap = $derived(innerWidth.current > 1080 ? 6 : 3)
+	let width = $state(0), height = $state(0), gap = $state(3)
 	let personals = $derived(data.works?.filter(w => w.kind === 'personal') ?? []);
     let commissions = $derived(data.works?.filter(w => w.kind === 'commission') ?? []);
 	let activeWorkId = $state(null);
+	let loaded = $state(false);
 
 	$effect(() => {
         if (browser && data.view) {
             document.cookie = `works-view-preference=${data.view}; path=/; max-age=31536000; SameSite=Lax`;
         }
     });
+	$effect(() => {
+        if (data.view === 'grid') {
+            if (height > 0) {
+                loaded = true;
+            }
+        } else {
+            loaded = true;
+        }
+    });
+	
 </script>
 
 <Head/>
 
-{#snippet work(work, kind)}
+{#snippet work(work, kind, i)}
 	<a class="work {kind}" href="/works/{work.slug.current}"
+	in:fade|global={{delay: 100 + 30*i, duration: 100}}
 	onmouseenter={() => activeWorkId = work._id}
 	onmouseleave={() => activeWorkId = null}
 	>
@@ -59,31 +72,34 @@
 		minColWidth={minColWidth}
 		maxColWidth={innerWidth.current}
 		gap={gap}
+		order={'row-first'}
 		bind:masonryWidth={width}
 		bind:masonryHeight={height}
 		>
 			{#snippet children({ item })}
-				<a class="work {!item.work.gridThumbnail ? '_16_9' : undefined}" href="/works/{item.work.slug.current}">
+				<a class="work {!item.work.gridThumbnail ? '_16_9' : undefined}" href="/works/{item.work.slug.current}" class:loaded={loaded}>
 					{#if item.work.gridThumbnail}
-						<Image image={item.work.gridThumbnail} hover={true} size={1080}/>
+						<div>
+							<Image image={item.work.gridThumbnail} hover={true} size={1080}/>
+						</div>
 					{/if}
 					<h2 class="title te-l">{item.work.title}</h2>
 				</a>
 			{/snippet}
 		</Masonry>
 	</main>
-{:else if data.view == 'list'}
+{:else if data.view == 'list' && loaded}
 	<main id="works" data-view="list">
 		<section id="personal">
 			<h2 class="kind">Personal</h2>
 			{#each personals as personal, i}
-				{@render work(personal, 'personal')}
+				{@render work(personal, 'personal', i)}
 			{/each}
 		</section>
 		<section id="commission">
 			<h2 class="kind">Commission</h2>
 			{#each commissions as commission, i}
-				{@render work(commission, 'commission')}
+				{@render work(commission, 'commission', i)}
 			{/each}
 		</section>
 	</main>
@@ -92,7 +108,7 @@
 <style>
 	#works {
 		min-height: calc(100vh - var(--footerHeight));
-		padding: var(--sp-100) var(--sp-16) var(--sp-16);
+		padding: var(--sp-168) var(--sp-16) var(--sp-16);
 
 		@media (width <= 1080px) {
 			min-height: unset;
@@ -105,6 +121,7 @@
 			display: block;
 			position: relative;
 			background-color: var(--black);
+			visibility: hidden;
 
 			.title {
 				position: absolute;
@@ -119,6 +136,10 @@
 				transition: var(--transition);
 				width: 100%;
 				padding: var(--sp-16);
+			}
+
+			&.loaded {
+				visibility: visible;
 			}
 
 			&:hover {
