@@ -49,7 +49,7 @@
 >
     {#if hasVideo}
 		<div class="overlay" class:hidden={hasStarted}>
-			<Image image={currentPoster} />
+			<Image image={currentPoster} fit={"cover"}/>
 		</div>
         
         <video 

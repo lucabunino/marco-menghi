@@ -11,10 +11,9 @@
 			{/each}
 		</div>
 	{/if}
-	<p class="development">Coding <a class="hover-underline" href="https://www.lucabunino.com/" target="_blank" rel="noopener noreferrer">Luca Bunino</a></p>
 </footer>
 
-<style>
+<style lang="scss">
 footer {
 	padding: var(--sp-100) var(--sp-16) var(--sp-24);
 	display: flex;
@@ -29,11 +28,8 @@ footer {
 	}
 
 	.policies {
-		position: absolute;
-		left: 50%;
-		transform: translateX(-50%);
 		display: flex;
-		column-gap: var(--sp-40);
+		column-gap: var(--sp-20);
 
 		@media (width <= 1080px) {
 			position: relative;

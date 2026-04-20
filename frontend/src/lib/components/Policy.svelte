@@ -1,6 +1,6 @@
 <script>
     import { PortableText } from "@portabletext/svelte";
-    import PortableTextStylePolicy from "./portableTextStyles/portableTextStylePolicy.svelte";
+    import PortableTextStylePolicy from "./portableTextStyles/PortableTextStylePolicy.svelte";
 
     let { policy } = $props()
 </script>

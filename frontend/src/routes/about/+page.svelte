@@ -45,13 +45,13 @@
 		<div class="contact">
 			{#if data.about.email}
 				<div class="email">
-					<h2>Contact</h2>
+					<h2 class="section-title">Contact</h2>
 					<a class="hover-underline" href="mailto:data.about.email">{data.about.email}</a>
 				</div>
 			{/if}
 			{#if data.about.instagram}
 				<div class="instagram">
-					<h2>Instagram</h2>
+					<h2 class="section-title">Instagram</h2>
 					<a class="hover-underline" href={data.about.instagram.instagramHref} target="_blank" rel="nosection-title noreferrer">{data.about.instagram.instagramHandle}</a>
 				</div>
 			{/if}
@@ -147,7 +147,7 @@
 	</div>
 </main>
 
-<style class="scss">
+<style lang="scss">
     #about {
 		display: flex;
 		column-gap: var(--sp-6);
@@ -305,6 +305,12 @@
 				@media (width <= 678px) {
 					margin-top: 0;
 				}
+			}
+
+			.publications {
+				display: flex;
+				flex-direction: column;
+				row-gap: .428em;
 			}
 		}
 	}
