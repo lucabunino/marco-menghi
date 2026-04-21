@@ -5,13 +5,13 @@
     let { policy } = $props()
 </script>
 
-<main class="md-18">
+<main id="policy">
 	{#if policy.title}
-		<h1 class="md-36">{policy.title}</h1>
+		<h1 class="te-l">{policy.title}</h1>
 	{/if}
-	{#if policy.body}
-		<div class="policyText portableText">
-			<PortableText value={policy.body}
+	{#if policy.content}
+		<div class="portableText policy">
+			<PortableText value={policy.content}
 			components={{
 				block: {
 					normal: PortableTextStylePolicy,
@@ -28,23 +28,13 @@
 </main>
 
 <style>
-	main {
-		margin-top: var(--headerHeight);
-		min-height: calc(100svh - var(--headerHeight));
-		width: 100vw;
-		padding: var(--sp-s) var(--sp-m) var(--sp-l);
+	#policy {
+		padding: var(--sp-100) var(--sp-16) var(--sp-16);
+		min-height: calc(100vh - var(--footerHeight));
+		max-width: 700px;
 
 		h1 {
-			margin-bottom: var(--sp-m);
-		}
-		
-		.policyText {
-			max-width: 800px;
-		}
-
-		@media screen and (max-width: 768px) {
-			min-height: calc(100svh - 8rem);
-			padding: var(--sp-s) var(--margin-mb) var(--sp-l);
+			margin-bottom: var(--sp-30);
 		}
 	}
 </style>

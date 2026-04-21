@@ -21,7 +21,7 @@
 <div id="site-wrapper" class="te-m" style="--white: {menuer.dark ? '#000' : '#fff'}; --black: {menuer.dark ? '#fff' : '#000'}">
 	<Header />
 	{@render children()}
-	{#if page.url.pathname === '/works' || page.url.pathname === '/about'}
+	{#if page.url.pathname === '/works' || page.url.pathname === '/about' || page.url.pathname.startsWith('/policy')}
 		<Footer policies={data.policies}/>
 	{/if}
 </div>

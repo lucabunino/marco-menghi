@@ -6,39 +6,44 @@
     import { PortableText } from '@portabletext/svelte';
     import PortableTextStyle from '$lib/components/portableTextStyles/PortableTextStyle.svelte'; 
     import { page } from '$app/state';
+    import { urlFor } from '$lib/utils/image';
 
-    let { data } = $props()
-    let work = $derived(data.work[0])
+    let { data } = $props();
+    let work = $derived(data.work[0]);
+    
     let index = $derived.by(() => {
         const iParam = page.url.searchParams.get('i');
         const n = parseInt(iParam);
         return (!isNaN(n) && n > 0) ? n - 1 : 0;
     });
-    let moreInfoHeight = $state(0)
-    let moreInfo = $state(false)
+
+    let nextImageUrl = $derived.by(() => {
+        if (!work?.images || work.images.length <= 1) return null;
+        const nextIdx = (index + 1) % work.images.length;
+        const nextImg = work.images[nextIdx];
+        return urlFor(nextImg).height(1920).auto('format').url();
+    });
+
+    let moreInfoHeight = $state(0);
+    let moreInfo = $state(false);
 
     function navigate(direction) {
+        if (!work?.images) return;
+        const total = work.images.length;
+        
         if (direction === 'next') {
-            if (work.images && index < work.images.length - 1) {
-                goto(`?i=${index + 2}`, { keepFocus: true, noScroll: true });
-            } else if (work.next) {
-                // goto(`/works/${work.next.slug.current}?i=1`);
-                goto(`/works`);
-            }
+            const nextIndex = (index + 1) % total;
+            goto(`?i=${nextIndex + 1}`, { keepFocus: true, noScroll: true });
         } else if (direction === 'prev') {
-            if (work.images && index > 0) {
-                goto(`?i=${index}`, { keepFocus: true, noScroll: true });
-            } else if (work.prev) {
-                const lastDisplayIndex = work.prev.imagesCount || 1;
-                // goto(`/works/${work.prev.slug.current}?i=${lastDisplayIndex}`);
-                goto(`/works`);
-            }
+            const prevIndex = (index - 1 + total) % total;
+            goto(`?i=${prevIndex + 1}`, { keepFocus: true, noScroll: true });
         }
     }
 
     function handleKeydown(e) {
         if (e.key === 'ArrowRight') navigate('next');
         if (e.key === 'ArrowLeft') navigate('prev');
+        if (e.key === 'Escape') goto('/works');
         if (e.key === ' ') {
             e.preventDefault();
             toggleMoreInfo();
@@ -49,80 +54,91 @@
         if (e.target.closest('#moreInfo')) return;
 
         const { clientX } = e;
-		if (innerWidth.current >= 1080) {
-			if (clientX > innerWidth.current / 2) {
-				navigate('next');
-			} else {
-				navigate('prev');
-			}
-		} else {
-			navigate('next');
-		}
+        if (innerWidth.current >= 1080) {
+            if (clientX > innerWidth.current / 2) {
+                navigate('next');
+            } else {
+                navigate('prev');
+            }
+        } else {
+            navigate('next');
+        }
     }
 
     function toggleMoreInfo() {
-        moreInfo = !moreInfo
+        moreInfo = !moreInfo;
     }
 </script>
 
 <svelte:window onkeydown={handleKeydown}/>
 
-<Head />
+<Head>
+    {#if nextImageUrl}
+        <link rel="preload" as="image" href={nextImageUrl} />
+    {/if}
+</Head>
 
-	<main id="work" onclick={handleClick}>
-		<div class="indicator">
-			<h1 class="title">{work.title}
-				{#if work.moreInfo}
-					<button class="moreInfo-switch-mobile" onclick={(e) => { e.stopPropagation(); toggleMoreInfo(); }}>
-						<div class="icon {moreInfo ? 'active' : ''}">
-							<div class="line horizontal"></div>
-							<div class="line vertical"></div>
-						</div>
-					</button>
-				{/if}
-			</h1>
-			{#if work.images}   
-				<span class="index">{index+1}/{work.images.length}</span>
-			{/if}
-		</div>
-		{#if work.images}
-			{#key index}
-				<div class="img-wrapper" 
-				style:aspect-ratio={work.images?.[index]?.asset?.metadata?.dimensions 
-				? work.images[index].asset.metadata.dimensions.width / work.images[index].asset.metadata.dimensions.height 
-				: 'auto'}>
-					<Image image={work.images?.[index]}/>
-				</div>
-			{/key}
-			<span class="index-mobile">{index+1}/{work.images.length}</span>
-		{/if}
-	</main>
-	{#if work.moreInfo}
-		<div id="moreInfo" class:active={moreInfo} style="--moreInfoHeight: {moreInfoHeight}px">
-			<button onclick={(e) => { e.stopPropagation(); toggleMoreInfo(); }}>
-				<div class="icon {moreInfo ? 'active' : ''}">
-					<div class="line horizontal"></div>
-					<div class="line vertical"></div>
-				</div>
-				More info
-			</button>
-			<div class="moreInfo-wrapper">
-				<div class="moreInfo portableText" bind:clientHeight={moreInfoHeight}>
-					<PortableText value={work.moreInfo}
-					components={{
-						block: { normal: PortableTextStyle },
-						listItem: PortableTextStyle,
-						marks: { link: PortableTextStyle },
-					}}/>
-				</div>
-				{#if work.date}<p class="year">{work.date.split('-')[0]}</p>{/if}
-				{#if work.kind}<p class="kind">{work.kind == 'personal' ? 'Personal project' : 'Commissioned project'}</p>{/if}
-				{#if work.city}<p class="city">{work.city.title}</p>{/if}
-			</div>
-			<div class="bg"></div>
-		</div>
-	{/if}
+<main id="work" onclick={handleClick} aria-label="Project Gallery">
+    <div class="indicator">
+        <h1 class="title">{work.title}
+            {#if work.moreInfo}
+                <button 
+                    class="moreInfo-switch-mobile" 
+                    onclick={(e) => { e.stopPropagation(); toggleMoreInfo(); }}
+                    aria-expanded={moreInfo}
+                >
+                    <div class="icon {moreInfo ? 'active' : ''}">
+                        <div class="line horizontal"></div>
+                        <div class="line vertical"></div>
+                    </div>
+                </button>
+            {/if}
+        </h1>
+        {#if work.images}   
+            <span class="index">{index + 1}/{work.images.length}</span>
+        {/if}
+    </div>
 
+    {#if work.images}
+        {#key index}
+            <div class="img-wrapper" 
+                style:aspect-ratio={work.images[index]?.asset?.metadata?.dimensions 
+                ? work.images[index].asset.metadata.dimensions.width / work.images[index].asset.metadata.dimensions.height 
+                : 'auto'}
+            >
+                <Image image={work.images[index]} height={1920}/>
+            </div>
+        {/key}
+        <span class="index-mobile">{index + 1}/{work.images.length}</span>
+    {/if}
+</main>
+
+{#if work.moreInfo}
+    <div id="moreInfo" class:active={moreInfo} style="--moreInfoHeight: {moreInfoHeight}px">
+        <button onclick={(e) => { e.stopPropagation(); toggleMoreInfo(); }}>
+            <div class="icon {moreInfo ? 'active' : ''}">
+                <div class="line horizontal"></div>
+                <div class="line vertical"></div>
+            </div>
+            More info
+        </button>
+        
+        <div class="moreInfo-wrapper">
+            <div class="moreInfo portableText" bind:clientHeight={moreInfoHeight}>
+                <PortableText value={work.moreInfo}
+                components={{
+                    block: { normal: PortableTextStyle },
+                    listItem: PortableTextStyle,
+                    marks: { link: PortableTextStyle },
+                }}/>
+            </div>
+            {#if work.date}<p class="year">{work.date.split('-')[0]}</p>{/if}
+            {#if work.kind}<p class="kind">{work.kind == 'personal' ? 'Personal project' : 'Commissioned project'}</p>{/if}
+            {#if work.city}<p class="city">{work.city.title}</p>{/if}
+        </div>
+        <div class="bg"></div>
+    </div>
+{/if}
 
 <style lang="scss">
 	#work {
@@ -149,7 +165,7 @@
 			pointer-events: none;
 			display: flex;
 			column-gap: var(--sp-30);
-			z-index: 3;
+			z-index: 4;
 			color: white;
 			mix-blend-mode: difference;
 

@@ -57,7 +57,7 @@
 		{#if activeWorkId == work._id && work.listThumbnail}
 			<div class="img-wrapper">
 				<div class="img">
-					<Image image={work.listThumbnail} fit={'cover'} size={1080}/>
+					<Image image={work.listThumbnail} fit={'cover'} height={1920}/>
 				</div>
 			</div>
 		{/if}
@@ -79,8 +79,8 @@
 			{#snippet children({ item })}
 				<a class="work {!item.work.gridThumbnail ? '_16_9' : undefined}" href="/works/{item.work.slug.current}" class:loaded={loaded}>
 					{#if item.work.gridThumbnail}
-						<div>
-							<Image image={item.work.gridThumbnail} hover={true} size={1080}/>
+						<div class="img-wrapper">
+							<Image image={item.work.gridThumbnail} hover={true} width={800} fit={'cover'}/>
 						</div>
 					{/if}
 					<h2 class="title te-l">{item.work.title}</h2>

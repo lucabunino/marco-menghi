@@ -16,9 +16,9 @@
         {@render children()}
     </a>
 {:else if style === 'h3'}
-    <h3 class="md-24">{@render children()}</h3>
+    <h3>{@render children()}</h3>
 {:else if style === 'h4'}
-    <h4 class="uppercase">{@render children()}</h4>
+    <h4>{@render children()}</h4>
 {:else if style === 'normal'}
     <p>{@render children()}</p>
 {:else}
@@ -34,8 +34,14 @@
 		list-style: disc;
     }
 	
-	h3, h4 {
-		margin-top: 2em;
+	h3 {
+		margin-top: 3em;
 		margin-bottom: .5em;
+		text-decoration: underline;
+	}
+	h4 {
+		margin-top: 1.2em;
+		margin-bottom: .5em;
+		font-style: italic;
 	}
 </style>

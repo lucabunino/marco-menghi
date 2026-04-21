@@ -3,22 +3,32 @@
 	
     let { 
         portableText,
-        children 
+        children,
     } = $props();
 
     const value = $derived(portableText.value);
     const style = $derived(value?.style);
     const listItem = $derived(value?.listItem);
+	
+	const index = $derived.by(() => {
+        const blocks = portableText.global.ptBlocks || [];
+        return blocks.findIndex(block => block._key === value._key);
+    });
+
+	const transitionParams = $derived({
+        delay: 100 + (Math.max(0, index) * 30),
+        duration: 100
+    });
 </script>
 
 {#if listItem === 'bullet'}
-    <li>{@render children()}</li>
+    <li in:fade|global={transitionParams}>{@render children()}</li>
 {:else if value._type === 'link'}
-    <a href={value?.url} target={value?.blank ? '_blank' : undefined}>
+    <a in:fade|global={transitionParams} href={value?.url} target={value?.blank ? '_blank' : undefined}>
         {@render children()}
     </a>
 {:else if style === 'normal'}
-    <p>{@render children()}</p>
+    <p in:fade|global={transitionParams}>{@render children()}</p>
 {:else}
     {@render children()}
 {/if}

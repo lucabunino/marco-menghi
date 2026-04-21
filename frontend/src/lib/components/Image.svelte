@@ -4,8 +4,9 @@
     let { 
         image, 
         aspectRatio = undefined, 
-        fit = undefined, 
-        size = 1080, 
+        width = undefined,
+        height = undefined,
+        fit = undefined,
         className = "", 
         loading = "lazy",
         hover = false 
@@ -13,25 +14,52 @@
 
     const asset = $derived(image?.asset);
     const metadata = $derived(asset?.metadata || {});
-    const dimensions = $derived(metadata.dimensions || { width: 1, height: 1 });
+    const dims = $derived(metadata.dimensions || { width: 1, height: 1 });
     const lqip = $derived(metadata.lqip);
 
-    const finalRatio = $derived(aspectRatio || dimensions.width / dimensions.height);
-    const widths = [400, 800, 1200, 1600, 2000];
+    const naturalRatio = $derived(dims.width / dims.height);
+    const finalRatio = $derived(aspectRatio || naturalRatio);
+
+    const limitHeight = $derived(height || (!width ? 1080 : undefined));
+    const limitWidth = $derived(width);
+
+    const getUrl = (w, h) => {
+        let builder = urlFor(image).auto('format');
+        
+        if (w) builder = builder.width(Math.round(w));
+        if (h) builder = builder.height(Math.round(h));
+        builder = builder.fit("max");
+        
+        return builder.url();
+    };
+
+    const widths = [400, 800, 1200, 1600, 2000, 2560];
     
-    const src = $derived(urlFor(image).width(size).auto('format').url());
     const srcset = $derived(
-        widths.map(w => `${urlFor(image).width(w).auto('format').url()} ${w}w`).join(', ')
+        widths.map(w => {
+            let targetW = w;
+            let targetH = undefined;
+
+            if (limitHeight && !limitWidth) {
+                const maxWidth = limitHeight * finalRatio;
+                targetW = Math.min(w, maxWidth);
+                targetH = targetW / finalRatio;
+            } else {
+                targetH = w / finalRatio;
+            }
+
+            return `${getUrl(targetW, targetH)} ${Math.round(targetW)}w`;
+        }).join(', ')
     );
 
+    const src = $derived(getUrl(limitWidth, limitHeight));
     let isLoaded = $state(false);
 </script>
 
 <div 
     class="image-wrapper {className}"
-    class:cover={fit == 'cover'}
-    class:can-hover={hover}
     class:is-loading={!isLoaded}
+    class:hover={hover}
     style:background-image="url({lqip})"
     style:aspect-ratio={finalRatio}
 >
@@ -42,8 +70,11 @@
         {srcset}
         {loading}
         class:loaded={isLoaded}
+        style:object-fit={fit === 'max' ? 'contain' : 'cover'}
         alt={asset?.altText || ""}
-        sizes="(max-width: 768px) 100vw, {size}px"
+        sizes={limitHeight 
+            ? `${Math.round(limitHeight * finalRatio)}px` 
+            : "(max-width: 768px) 100vw, 1200px"}
         onload={() => isLoaded = true}
     />
 </div>
@@ -52,10 +83,11 @@
     .image-wrapper {
         position: relative;
         width: 100%;
-		height: 100%;
+        height: 100%;
         background-size: cover;
         background-position: center;
         overflow: hidden;
+        display: block;
 
         .overlay {
             position: absolute;
@@ -63,15 +95,16 @@
             z-index: 3;
             pointer-events: none;
             backdrop-filter: saturate(1) invert(0);
-			transition: var(--transition);
+            transition: var(--transition);
         }
 
         &.is-loading .overlay {
-			backdrop-filter: saturate(0) invert(1) blur(20px);
-		}
-		&.can-hover:hover .overlay {
-			backdrop-filter: saturate(0) invert(1);
-			transition: none;
+            backdrop-filter: saturate(0) invert(1) blur(20px);
+        }
+
+        &.hover:hover .overlay {
+            backdrop-filter: saturate(0) invert(1) brightness(.8);
+            transition: none;
         }
 
         img {
@@ -87,12 +120,5 @@
                 opacity: 1;
             }
         }
-
-		&.cover {
-			img {
-				object-fit: cover;
-				object-position: center;
-			}
-		}
     }
 </style>

@@ -15,32 +15,31 @@
     let step = $state(0);
 
 	function nextStep() {
-        const isWide = images[index].wide;
+		const currentIsWide = images[index].wide;
 
-        if (isWide) {
-            index = (index + 1) % images.length;
-            step = images[index].wide ? 0 : 1; 
-        } else {
-            if (step === 0) {
-                step = 1;
-            } else {
-                index = (index + 1) % images.length;
-                step = 0;
-            }
-        }
-    }
+		// If it's wide OR we are already on the second half of a split (step 1)
+		if (currentIsWide || step === 1) {
+			index = (index + 1) % images.length;
+			step = 0; // Always start new images at the beginning
+		} else {
+			// We are on step 0 of a split image, move to step 1
+			step = 1;
+		}
+	}
 
-    function prevStep() {
-        if (index === 0 && step === 0) return;
-
-        if (step === 1) {
-            step = 0;
-        } else {
-            index = (index - 1 + images.length) % images.length;
-            const prevWasWide = images[(index - 1 + images.length) % images.length].wide;
-            step = images[index].wide ? 0 : 1;
-        }
-    }
+	function prevStep() {
+		// If we are on the second half of a split pair, just go back to the first half
+		if (step === 1) {
+			step = 0;
+		} else {
+			// Go to previous image index
+			index = (index - 1 + images.length) % images.length;
+			
+			// If the NEW current image is wide, it only has step 0.
+			// If it's a split image, we must land on step 1 (the right side).
+			step = images[index].wide ? 0 : 1;
+		}
+	}
 
 	function handleKeyDown(e) {
         if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
@@ -73,9 +72,6 @@
 
 <main id="homepage" onmousemove={handleMouseMove}>
 {#if innerWidth.current >= 1080}
-	<!-- <p style="position: fixed; left:0; top:50%; z-index:999; background-color: var(--white); padding: 4px; font-family: monospace;">
-		{index}/{step}
-	</p> -->
     {#each images as image, i}
         {@const isPast = i < index}
         {@const isCurrent = i === index}
@@ -86,19 +82,19 @@
 					{#if isPast || isCurrent}
 						{#key step}
 							<div class="img wide">
-								<Image image={image.wide} fit={'cover'} size={2560}/>
+								<Image image={image.wide} fit={'cover'} height={1920}/>
 							</div>
 						{/key}
 					{/if}
 				{:else}
 					{#if isPast || (isCurrent && step >= 0)}
 						<div class="img left">
-							<Image image={image.left} fit={'cover'} size={1080}/>
+							<Image image={image.left} fit={'cover'} height={1920}/>
 						</div>
 					{/if}
 					{#if isPast || (isCurrent && step === 1)}
 						<div class="img right">
-							<Image image={image.right} fit={'cover'} size={1080}/>
+							<Image image={image.right} fit={'cover'} height={1920}/>
 						</div>
 					{/if}
 				{/if}
