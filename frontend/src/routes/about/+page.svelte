@@ -5,12 +5,15 @@
     import PortableTextStyle from '$lib/components/portableTextStyles/PortableTextStyle.svelte';
 	import PortableTextStyleTransition from '$lib/components/portableTextStyles/PortableTextStyleTransition.svelte';
     import { fade } from 'svelte/transition';
+    import { innerWidth } from 'svelte/reactivity/window';
 	
     let { data } = $props()
 	let activeSection = $state(null)
 	let elements = $state({});
     let heights = $state({});
 	let loaded = $state(false);
+	
+	const FADE_DURATION = 100
 
 	function toggleSection(section) {
         if (activeSection === section) {
@@ -54,13 +57,13 @@
 		{#if data.about.email}
 			<div class="email">
 				<h2 class="section-title">Contact</h2>
-				<a in:fade|global={{delay: 100, duration: 100}} class="hover-underline" href="mailto:data.about.email">{data.about.email}</a>
+				<a in:fade|global={{delay: innerWidth.current > 678 ? 100 : 0, duration: innerWidth.current > 678 ? FADE_DURATION : 0}} class="hover-underline" href="mailto:data.about.email">{data.about.email}</a>
 			</div>
 		{/if}
 		{#if data.about.instagram}
 			<div class="instagram">
-				<h2 in:fade|global={{delay: 190, duration: 100}} class="section-title">Instagram</h2>
-				<a in:fade|global={{delay: 220, duration: 100}} class="hover-underline" href={data.about.instagram.instagramHref} target="_blank" rel="nosection-title noreferrer">{data.about.instagram.instagramHandle}</a>
+				<h2 in:fade|global={{delay: innerWidth.current > 678 ? 190 : 0, duration: innerWidth.current > 678 ? FADE_DURATION : 0}} class="section-title">Instagram</h2>
+				<a in:fade|global={{delay: innerWidth.current > 678 ? 220 : 0, duration: innerWidth.current > 678 ? FADE_DURATION : 0}} class="hover-underline" href={data.about.instagram.instagramHref} target="_blank" rel="nosection-title noreferrer">{data.about.instagram.instagramHandle}</a>
 			</div>
 		{/if}
 	</div>
@@ -75,9 +78,9 @@
 			<div class="clients opener" bind:this={elements['clients']}>
 				{#each data.about.clients as client, i}
 				{#if client.href}
-				<a in:fade|global={{delay: 100 + 30*i, duration: 100}} class="client" href={client.href} target="_blank" rel="nosection-title noreferrer">{client.title}</a>
+				<a in:fade|global={{delay: innerWidth.current > 678 ? 100 : 0 + 30*i, duration: innerWidth.current > 678 ? FADE_DURATION : 0}} class="client" href={client.href} target="_blank" rel="nosection-title noreferrer">{client.title}</a>
 				{:else}
-				<h3 in:fade|global={{delay: 100 + 30*i, duration: 100}} class="client">{client.title}</h3>
+				<h3 in:fade|global={{delay: innerWidth.current > 678 ? 100 : 0 + 30*i, duration: innerWidth.current > 678 ? FADE_DURATION : 0}} class="client">{client.title}</h3>
 				{/if}
 				{/each}
 			</div>
@@ -144,9 +147,9 @@
 				<div class="publications opener portableText" bind:this={elements['publications']}>
 					{#each data.about.publications as publication, i}
 					{#if publication.href || publication.pdf}
-					<a in:fade|global={{delay: 100 + 30*i, duration: 100}} class="pubblication hover-underline" href={publication.href ? publication.href : publication.pdf} target="_blank" rel="nosection-title noreferrer">{publication.title}</a>
+					<a in:fade|global={{delay: innerWidth.current > 678 ? 100 : 0 + 30*i, duration: innerWidth.current > 678 ? FADE_DURATION : 0}} class="pubblication hover-underline" href={publication.href ? publication.href : publication.pdf} target="_blank" rel="nosection-title noreferrer">{publication.title}</a>
 					{:else}
-					<h3 in:fade|global={{delay: 100 + 30*i, duration: 100}} class="pubblication">{publication.title}</h3>
+					<h3 in:fade|global={{delay: innerWidth.current > 678 ? 100 : 0 + 30*i, duration: innerWidth.current > 678 ? FADE_DURATION : 0}} class="pubblication">{publication.title}</h3>
 					{/if}
 					{/each}
 				</div>
@@ -163,7 +166,6 @@
 		column-gap: var(--sp-6);
 		padding: var(--sp-100) var(--sp-16) var(--sp-16);
 		min-height: calc(100vh - var(--footerHeight));
-		min-height: 100vh;
 
 		@media (width <= 1080px) {
 			flex-direction: column;
@@ -261,6 +263,10 @@
 					flex-direction: row;
 					flex-wrap: wrap;
 					row-gap: 0;
+
+					.section-title {
+						padding: 0;
+					}
 					
 					.email {
 						display: contents;
@@ -278,6 +284,23 @@
 						a {
 							flex-basis: 100%;
 							margin-left: 20vw;
+						}
+					}
+				}
+
+				@media (width <= 350px) {
+					flex-direction: column;
+					flex-wrap: nowrap;
+					
+					.email {
+						h2 {
+							width: auto;
+						}
+					}
+
+					.instagram {
+						a {
+							margin-left: unset;
 						}
 					}
 				}
@@ -339,7 +362,7 @@
         &.active {
             .icon {
                 .line.vertical {
-                    transform: translateX(-50%) rotate(90deg);
+                    transform: translateX(-50%) rotate(90deg) !important;
                 }
             }
             

@@ -18,18 +18,23 @@ export async function getSeo() {
 			seoTitle,
 			seoDescription,
 			seoImage,
-		}|order(year desc)`
+		}`
 	);
 }
 export async function getPolicies() {
 	return await client.fetch(
-		`
-		*[(_type == "cookies" || _type == "privacy") && !(_id in path('drafts.**'))] {
+		`*[(_type == "cookies" || _type == "privacy") && !(_id in path('drafts.**'))] {
 			_type,
 			title,
 			slug,
-		}
-		`
+		}`
+	);
+}
+export async function getLogo() {
+	return await client.fetch(
+		`*[_type == "about" && !(_id in path('drafts.**'))][0] {
+			"logoUrl": logo.asset->url
+		}`
 	);
 }
 export async function getCookies() {

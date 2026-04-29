@@ -8,10 +8,9 @@
 	import { getMenu } from '$lib/stores/menu.svelte.js';
     import Footer from "$lib/components/Footer.svelte";
     import { page } from "$app/state";
-	$inspect(page)
     let menuer = getMenu();
-
 	let { data, children } = $props();
+	$inspect(data.logo)
 </script>
 
 <svelte:head>
@@ -22,7 +21,7 @@
 	<Header />
 	{@render children()}
 	{#if page.url.pathname === '/works' || page.url.pathname === '/about' || page.url.pathname.startsWith('/policy')}
-		<Footer policies={data.policies}/>
+		<Footer policies={data.policies} logo={data.logo}/>
 	{/if}
 </div>
 

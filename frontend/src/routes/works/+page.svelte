@@ -64,8 +64,8 @@
 	</a>
 {/snippet}
 
-{#if data.view == 'grid'}
-	<main id="works" data-view="grid">
+<main id="works" data-view={data.view}>
+	{#if data.view == 'grid'}
 		<Masonry
 		items={items}
 		animate={false}
@@ -77,7 +77,9 @@
 		bind:masonryHeight={height}
 		>
 			{#snippet children({ item })}
-				<a class="work {!item.work.gridThumbnail ? '_16_9' : undefined}" href="/works/{item.work.slug.current}" class:loaded={loaded}>
+				<a class="work {!item.work.gridThumbnail ? '_16_9' : undefined}"
+				href="/works/{item.work.slug.current}"
+				class:loaded={loaded}>
 					{#if item.work.gridThumbnail}
 						<div class="img-wrapper">
 							<Image image={item.work.gridThumbnail} hover={true} width={800} fit={'cover'}/>
@@ -87,9 +89,7 @@
 				</a>
 			{/snippet}
 		</Masonry>
-	</main>
-{:else if data.view == 'list' && loaded}
-	<main id="works" data-view="list">
+	{:else if data.view == 'list' && loaded}
 		<section id="personal">
 			<h2 class="kind">Personal</h2>
 			{#each personals as personal, i}
@@ -102,8 +102,8 @@
 				{@render work(commission, 'commission', i)}
 			{/each}
 		</section>
-	</main>
-{/if}
+	{/if}
+</main>
 
 <style>
 	#works {
@@ -121,7 +121,9 @@
 			display: block;
 			position: relative;
 			background-color: var(--black);
-			visibility: hidden;
+			opacity: 0;
+			/* transition: var(--transition);
+			transition-delay: var(--delay); */
 
 			.title {
 				position: absolute;
@@ -139,7 +141,7 @@
 			}
 
 			&.loaded {
-				visibility: visible;
+				opacity: 1;
 			}
 
 			&:hover {

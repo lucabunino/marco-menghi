@@ -1,12 +1,13 @@
-import { getSeo, getPolicies } from '$lib/utils/sanity';
+import { getSeo, getPolicies, getLogo } from '$lib/utils/sanity';
 import { error } from '@sveltejs/kit';
 
 export async function load({ url }) {
-	let seo, policies;
+	let seo, policies, logo, logoSvg;
 	try {
-		[seo, policies] = await Promise.all([
+		[seo, policies, logo] = await Promise.all([
 		getSeo(),
-		getPolicies()
+		getPolicies(),
+		getLogo()
 		]);
 	} catch (err) {
 		throw error(500, 'Failed to load page data');
@@ -16,9 +17,21 @@ export async function load({ url }) {
 		throw error(404, 'Missing SEO data');
 	}
 
+    if (logo?.logoUrl) {
+        try {
+            const res = await fetch(logo.logoUrl);
+            if (res.ok) {
+                logoSvg = await res.text();
+            }
+        } catch (err) {
+            console.error('Could not fetch logo SVG text:', err);
+        }
+    }
+
 	return {
 		seo,
 		policies,
+		logo: logoSvg,
 		pathname: url.pathname
 	};
 }

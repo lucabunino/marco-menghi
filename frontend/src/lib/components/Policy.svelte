@@ -33,6 +33,10 @@
 		min-height: calc(100vh - var(--footerHeight));
 		max-width: 700px;
 
+		a {
+			display: inline;
+		}
+
 		h1 {
 			margin-bottom: var(--sp-30);
 		}

@@ -1,3 +1,5 @@
+import wysiwyg2 from "./fields/wysiwyg2";
+
 export default {
   name: 'cookies',
   type: 'document',
@@ -19,14 +21,6 @@ export default {
 			maxLength: 96,
 		},
 	},
-    {
-		name: 'content',
-		type: 'array',
-		of: [
-			{
-			type: 'block',
-			}
-		]
-    },
+	wysiwyg2('content'),
   ],
 }

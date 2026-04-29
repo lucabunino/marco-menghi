@@ -8,7 +8,7 @@ $colors: (
 		--#{$name}: #{$value};
 	}
 	--headerHeight: calc(var(--sp-24)*2 + 1rem*1.15);
-	--footerHeight: calc(var(--sp-100) + var(--sp-24) + 0.786rem*1.2);
+	--footerHeight: calc(var(--sp-100) + var(--sp-24) + 50px);
 	--transition: cubic-bezier(.77,0,.175,1) 400ms;
 	--sp-3:	0.214rem;
 	--sp-6: 0.428rem;

@@ -6,6 +6,7 @@ export default {
 	type: 'document',
 	icon: InfoOutlineIcon,
 	groups: [
+		{name: 'Logo'},
 		{name: 'About'},
 		{name: 'Clients'},
 		{name: 'Exhibitions'},
@@ -19,6 +20,11 @@ export default {
 			hidden: true,
 			validation: Rule => Rule.required(),
 			group: 'About',
+		},
+		{
+			name: 'logo',
+			type: 'file',
+			group: 'Logo',
 		},
 		wysiwyg("content", 'About'),
 		{

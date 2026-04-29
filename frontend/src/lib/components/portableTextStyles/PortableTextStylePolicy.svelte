@@ -33,11 +33,15 @@
         margin: 1.1em 0 1.1em 2em;
 		list-style: disc;
     }
+	a {
+		display: inline;
+		text-decoration: underline;
+	}
 	
 	h3 {
 		margin-top: 3em;
 		margin-bottom: .5em;
-		text-decoration: underline;
+		text-transform: uppercase;
 	}
 	h4 {
 		margin-top: 1.2em;
