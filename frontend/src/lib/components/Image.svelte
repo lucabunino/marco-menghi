@@ -96,7 +96,7 @@
             pointer-events: none;
             backdrop-filter: saturate(1) invert(0);
             transition: var(--transition);
-			transition-duration: 800ms;
+			transition-duration: 200ms;
         }
 
         &.is-loading .overlay {
@@ -116,7 +116,7 @@
             height: 100%;
             opacity: 0;
             transition: var(--transition);
-			transition-duration: 800ms;
+			transition-duration: 200ms;
 
             &.loaded {
                 opacity: 1;
