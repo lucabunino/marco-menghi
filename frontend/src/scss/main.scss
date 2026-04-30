@@ -180,6 +180,8 @@ html {
 }
 
 // Common
+.underline,
+.underline:any-link,
 .hover-underline:hover {
 	text-decoration: underline;
 }
