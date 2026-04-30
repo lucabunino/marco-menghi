@@ -54,7 +54,7 @@ footer {
 			width: auto;
 
 			@media (width <= 1080px) {
-				height: 4rem;
+				height: 5rem;
 			}
 
 			:global(svg) {

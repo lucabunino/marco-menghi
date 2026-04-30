@@ -3,12 +3,12 @@
 	import "../scss/reset.scss";
 	import "../scss/main.scss";
 
-	import favicon from '$lib/assets/favicon.svg';
     import Header from '$lib/components/Header.svelte';
 	import { getMenu } from '$lib/stores/menu.svelte.js';
     import Footer from "$lib/components/Footer.svelte";
     import { page } from "$app/state";
     import { onMount } from "svelte";
+    import { dev } from "$app/environment";
 	
     let menuer = getMenu();
 	let { data, children } = $props();
@@ -27,8 +27,16 @@
 </script>
 
 <svelte:head>
-	<script defer src="https://cloud.umami.is/script.js" data-website-id="bce2337a-0ae8-416c-bd60-d4f1c0bc8028"></script>
-	<link rel="icon" href={favicon} />
+	{#if !dev}
+		<script defer src="https://cloud.umami.is/script.js" data-website-id="bce2337a-0ae8-416c-bd60-d4f1c0bc8028"></script>
+	{/if}
+
+	<link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+	<link rel="shortcut icon" href="/favicon/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="Marco Menghi" />
+	<link rel="manifest" href="/favicon/site.webmanifest" />
 </svelte:head>
 
 <div id="site-wrapper" class="te-m" style="--white: {menuer.dark ? '#000' : '#fff'}; --black: {menuer.dark ? '#fff' : '#000'}">
