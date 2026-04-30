@@ -62,11 +62,19 @@
 		z-index: 10;
 		max-width: 600px;
 		background: var(--white);
-		padding: var(--sp-12);
+		padding: var(--sp-16);
 		display: flex;
 		flex-direction: column;
 		gap: var(--sp-16);
 		box-shadow: 0 4px 12px color-mix(in srgb, var(--black), transparent 90%);
+
+		@media (width <= 678px) {
+			left: 0;
+			bottom: 0;
+			max-width: unset;
+			gap: var(--sp-24);
+			padding: var(--sp-24) var(--sp-16);
+		}
 		
 		button {
 			align-self: flex-start;
