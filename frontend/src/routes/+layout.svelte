@@ -27,6 +27,7 @@
 </script>
 
 <svelte:head>
+	<script defer src="https://cloud.umami.is/script.js" data-website-id="bce2337a-0ae8-416c-bd60-d4f1c0bc8028"></script>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
