@@ -88,6 +88,7 @@ export async function getAbout() {
     return await client.fetch(
         `*[_type == "about" && !(_id in path('drafts.**'))][0] {
             content,
+			"portfolio": portfolio.asset->url,
 			email,
 			instagram,
 			clients[]-> {

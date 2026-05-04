@@ -8,6 +8,8 @@ export default {
 	groups: [
 		{name: 'Logo'},
 		{name: 'About'},
+		{name: 'Portfolio'},
+		{name: 'Contact'},
 		{name: 'Clients'},
 		{name: 'Exhibitions'},
 		{name: 'Prizes'},
@@ -28,9 +30,17 @@ export default {
 		},
 		wysiwyg("content", 'About'),
 		{
+			name: 'portfolio',
+			type: 'file',
+			group: 'Portfolio',
+			options: {
+				accept: '.pdf'
+			},
+		},
+		{
 			name: 'email',
 			type: 'string',
-			group: 'About',
+			group: 'Contact',
 		},
 		{
 			name: 'instagram',
@@ -48,7 +58,7 @@ export default {
 					type: 'url',
 				},
 			],
-			group: 'About',
+			group: 'Contact',
 		},
 		{
 			name: 'clients',

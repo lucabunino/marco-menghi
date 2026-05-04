@@ -8,6 +8,7 @@
     import { innerWidth } from 'svelte/reactivity/window';
 	
     let { data } = $props()
+
 	let activeSection = $state(null)
 	let elements = $state({});
     let heights = $state({});
@@ -51,6 +52,9 @@
 					link: PortableTextStyle,
 				},
 			}}/>
+			{#if data.about.portfolio}
+				<a class="portfolio underline" href={data.about.portfolio} target="_blank" rel="nosection-title noreferrer">Download portfolio</a>
+			{/if}
 		</div>
 	{/if}
 	<div class="contact">
@@ -241,6 +245,10 @@
 			.content {
 				grid-column: 1 / span 10;
 				max-width: 600px;
+
+				.portfolio {
+					margin-top: 1em;
+				}
 
 				@media (width <= 678px) {
 					grid-row: 2;
