@@ -12,7 +12,7 @@
 {#if listItem === 'bullet'}
     <li>{@render children()}</li>
 {:else if value._type === 'link'}
-    <a href={value?.url} target={value?.blank ? '_blank' : undefined}>
+    <a class="underline" href={value?.href} target={value?.blank ? '_blank' : undefined}>
         {@render children()}
     </a>
 {:else if style === 'h3'}
@@ -33,10 +33,6 @@
         margin: 1.1em 0 1.1em 2em;
 		list-style: disc;
     }
-	a {
-		display: inline;
-		text-decoration: underline;
-	}
 	
 	h3 {
 		margin-top: 3em;

@@ -24,7 +24,7 @@
 {#if listItem === 'bullet'}
     <li in:fade|global={transitionParams}>{@render children()}</li>
 {:else if value._type === 'link'}
-    <a in:fade|global={transitionParams} href={value?.url} target={value?.blank ? '_blank' : undefined}>
+    <a in:fade|global={transitionParams} class="underline" href={value?.href} target={value?.blank ? '_blank' : undefined}>
         {@render children()}
     </a>
 {:else if style === 'normal'}
