@@ -39,7 +39,7 @@
 	<link rel="manifest" href="/favicon/site.webmanifest" />
 </svelte:head>
 
-{#if page.url.hostname === "marcomenghi.com"}
+{#if page.url.hostname === "www.marcomenghi.com"}
 	<p style="position: fixed; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%); text-align: center;">Website under construction</p>
 {:else}
 	<div id="site-wrapper" class="te-m" style="--white: {menuer.dark ? '#000' : '#fff'}; --black: {menuer.dark ? '#fff' : '#000'}">
