@@ -96,7 +96,7 @@
             pointer-events: none;
             backdrop-filter: saturate(1) invert(0);
             transition: var(--transition);
-			transition-duration: 300ms;
+			transition-duration: 150ms;
         }
 
         &.is-loading .overlay {

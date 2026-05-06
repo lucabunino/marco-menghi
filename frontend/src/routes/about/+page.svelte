@@ -61,7 +61,7 @@
 		{#if data.about.email}
 			<div class="email">
 				<h2 class="section-title">Contact</h2>
-				<a in:fade|global={{delay: innerWidth.current > 678 ? 100 : 0, duration: innerWidth.current > 678 ? FADE_DURATION : 0}} class="hover-underline" href="mailto:data.about.email">{data.about.email}</a>
+				<a in:fade|global={{delay: innerWidth.current > 678 ? 100 : 0, duration: innerWidth.current > 678 ? FADE_DURATION : 0}} class="hover-underline" href="mailto:{data.about.email}">{data.about.email}</a>
 			</div>
 		{/if}
 		{#if data.about.instagram}
