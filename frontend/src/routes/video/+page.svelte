@@ -38,46 +38,51 @@
     });
 </script>
 
+<svelte:head>
+    <meta name="robots" content="noindex, nofollow" />
+</svelte:head>
 <Head seo={data.seoSingle} />
 
-<main 
-    id="video" 
-    onclick={togglePlay} 
-    onkeydown={(e) => e.key === ' ' && togglePlay()}
-    role="button"
-    tabindex="0"
->
-    {#if hasVideo}
-		<div class="overlay" class:hidden={hasStarted}>
-			<Image image={currentPoster} fit={"cover"}/>
-		</div>
-        
-        <video 
-            bind:this={desktopVid}
-            class="horizontal"
-            muted loop playsinline
-            poster={urlFor(data.video.videoDesktop?.poster).url()}
-        >
-            <source src={data.video.videoDesktop.url} type="video/mp4" />
-        </video>
+<main>
+	<div 
+		id="video" 
+		onclick={togglePlay} 
+		onkeydown={(e) => e.key === ' ' && togglePlay()}
+		role="button"
+		tabindex="0"
+	>
+		{#if hasVideo}
+			<div class="overlay" class:hidden={hasStarted}>
+				<Image image={currentPoster} fit={"cover"}/>
+			</div>
+			
+			<video 
+				bind:this={desktopVid}
+				class="horizontal"
+				muted loop playsinline
+				poster={urlFor(data.video.videoDesktop?.poster).url()}
+			>
+				<source src={data.video.videoDesktop.url} type="video/mp4" />
+			</video>
 
-        <video 
-            bind:this={mobileVid}
-            class="vertical"
-            muted loop playsinline
-            poster={urlFor(data.video.videoMobile?.poster || data.video.videoDesktop?.poster).url()}
-        >
-            <source src={data.video.videoMobile.url || data.video.videoDesktop.url} type="video/mp4" />
-        </video>
+			<video 
+				bind:this={mobileVid}
+				class="vertical"
+				muted loop playsinline
+				poster={urlFor(data.video.videoMobile?.poster || data.video.videoDesktop?.poster).url()}
+			>
+				<source src={data.video.videoMobile.url || data.video.videoDesktop.url} type="video/mp4" />
+			</video>
 
-        <div class="play-indicator" class:hidden={isPlaying}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path fill="currentColor" d="M1 15.65L15.662 8L1 .35z"/>
-            </svg>
-        </div>
-    {:else}
-        <span class="error">Missing video assets</span>
-    {/if}
+			<div class="play-indicator" class:hidden={isPlaying}>
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+					<path fill="currentColor" d="M1 15.65L15.662 8L1 .35z"/>
+				</svg>
+			</div>
+		{:else}
+			<span class="error">Missing video assets</span>
+		{/if}
+	</div>
 </main>
 
 <style lang="scss">

@@ -44,7 +44,7 @@
         if (e.key === 'ArrowRight') navigate('next');
         if (e.key === 'ArrowLeft') navigate('prev');
         if (e.key === 'Escape') goto('/works');
-        if (e.key === ' ') {
+		if (e.key === ' ') {
             e.preventDefault();
             toggleMoreInfo();
         }
@@ -78,40 +78,47 @@
     {/if}
 </Head>
 
-<main id="work" role="button" tabindex="0" onclick={handleClick} aria-label="Project Gallery">
-    <div class="indicator">
-        <h1 class="title">{work.title}
-            {#if work.moreInfo}
-                <button
-					aria-label="More info"
-                    class="moreInfo-switch-mobile" 
-                    onclick={(e) => { e.stopPropagation(); toggleMoreInfo(); }}
-                    aria-expanded={moreInfo}
-                >
-                    <div class="icon {moreInfo ? 'active' : ''}">
-                        <div class="line horizontal"></div>
-                        <div class="line vertical"></div>
-                    </div>
-                </button>
-            {/if}
-        </h1>
-        {#if work.images}   
-            <span class="index">{index + 1}/{work.images.length}</span>
-        {/if}
-    </div>
+<main>
+	<div id="work" role="button" tabindex="0" onclick={handleClick} aria-label="Project Gallery" onkeydown={(e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            navigate('next');
+        }
+    }}>
+		<div class="indicator">
+			<h1 class="title">{work.title}
+				{#if work.moreInfo}
+					<button
+						aria-label="More info"
+						class="moreInfo-switch-mobile" 
+						onclick={(e) => { e.stopPropagation(); toggleMoreInfo(); }}
+						aria-expanded={moreInfo}
+					>
+						<div class="icon {moreInfo ? 'active' : ''}">
+							<div class="line horizontal"></div>
+							<div class="line vertical"></div>
+						</div>
+					</button>
+				{/if}
+			</h1>
+			{#if work.images}   
+				<span class="index">{index + 1}/{work.images.length}</span>
+			{/if}
+		</div>
 
-    {#if work.images}
-        {#key index}
-            <div class="img-wrapper" 
-                style:aspect-ratio={work.images[index]?.asset?.metadata?.dimensions 
-                ? work.images[index].asset.metadata.dimensions.width / work.images[index].asset.metadata.dimensions.height 
-                : 'auto'}
-            >
-                <Image image={work.images[index]} height={1920}/>
-            </div>
-        {/key}
-        <span class="index-mobile">{index + 1}/{work.images.length}</span>
-    {/if}
+		{#if work.images}
+			{#key index}
+				<div class="img-wrapper" 
+					style:aspect-ratio={work.images[index]?.asset?.metadata?.dimensions 
+					? work.images[index].asset.metadata.dimensions.width / work.images[index].asset.metadata.dimensions.height 
+					: 'auto'}
+				>
+					<Image image={work.images[index]} height={1920}/>
+				</div>
+			{/key}
+			<span class="index-mobile">{index + 1}/{work.images.length}</span>
+		{/if}
+	</div>
 </main>
 
 {#if work.moreInfo}
