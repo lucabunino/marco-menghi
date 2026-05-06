@@ -78,11 +78,12 @@
     {/if}
 </Head>
 
-<main id="work" onclick={handleClick} aria-label="Project Gallery">
+<main id="work" role="button" tabindex="0" onclick={handleClick} aria-label="Project Gallery">
     <div class="indicator">
         <h1 class="title">{work.title}
             {#if work.moreInfo}
-                <button 
+                <button
+					aria-label="More info"
                     class="moreInfo-switch-mobile" 
                     onclick={(e) => { e.stopPropagation(); toggleMoreInfo(); }}
                     aria-expanded={moreInfo}

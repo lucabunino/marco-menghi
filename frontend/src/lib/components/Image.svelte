@@ -102,11 +102,13 @@
         &.is-loading .overlay {
             backdrop-filter: saturate(0) invert(1) blur(20px);
         }
-
-        &.hover:hover .overlay {
-            backdrop-filter: saturate(0) invert(1) brightness(.8);
-            transition: none;
-        }
+		
+		@media (hover: hover) {
+			&.hover:hover .overlay {
+				backdrop-filter: saturate(0) invert(1) brightness(.8);
+				transition: none;
+			}
+		}
 
         img {
             position: relative;

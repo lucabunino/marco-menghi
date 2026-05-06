@@ -27,7 +27,7 @@
 	{/if}
 </main>
 
-<style>
+<style lang="scss">
 	#policy {
 		padding: var(--sp-100) var(--sp-16) var(--sp-16);
 		min-height: calc(100vh - var(--footerHeight));

@@ -73,11 +73,13 @@
 	</div>
 	{#if data.about.clients}
 		<div class="wrapper clients-wrapper {activeSection === 'clients' ? 'active' : ''}" style="--maxHeight: {heights['clients'] || 0}px">
-			<h2 class="section-title" onclick={() => toggleSection('clients')}>Selected clients
-				<div class="icon">
-					<div class="line horizontal"></div>
-					<div class="line vertical"></div>
-				</div>
+			<h2 class="section-title">
+				<button onclick={() => toggleSection('clients')}>Selected clients
+					<div class="icon">
+						<div class="line horizontal"></div>
+						<div class="line vertical"></div>
+					</div>
+				</button>
 			</h2>
 			<div class="clients opener" bind:this={elements['clients']}>
 				{#each data.about.clients as client, i}
@@ -96,11 +98,13 @@
 	<div>
 		{#if data.about.exhibitions}
 			<div class="wrapper exhibitions-wrapper {activeSection === 'exhibitions' ? 'active' : ''}" style="--maxHeight: {heights['exhibitions'] || 0}px">
-				<h2 class="section-title" onclick={() => toggleSection('exhibitions')}>Exhibitions
-					<div class="icon">
-						<div class="line horizontal"></div>
-						<div class="line vertical"></div>
-					</div>
+				<h2 class="section-title">
+					<button onclick={() => toggleSection('exhibitions')}>Exhibitions
+						<div class="icon">
+							<div class="line horizontal"></div>
+							<div class="line vertical"></div>
+						</div>
+					</button>
 				</h2>
 				<div class="exhibitions opener portableText" bind:this={elements['exhibitions']}>
 					<PortableText value={data.about.exhibitions}
@@ -118,11 +122,13 @@
 		{/if}
 		{#if data.about.prizes}
 			<div class="wrapper prizes-wrapper {activeSection === 'prizes' ? 'active' : ''}" style="--maxHeight: {heights['prizes'] || 0}px">
-				<h2 class="section-title" onclick={() => toggleSection('prizes')}>Prizes
-					<div class="icon">
-						<div class="line horizontal"></div>
-						<div class="line vertical"></div>
-					</div>
+				<h2 class="section-title">
+					<button onclick={() => toggleSection('prizes')}>Prizes
+						<div class="icon">
+							<div class="line horizontal"></div>
+							<div class="line vertical"></div>
+						</div>
+					</button>
 				</h2>
 				<div class="prizes opener portableText" bind:this={elements['prizes']}>
 					<PortableText value={data.about.prizes}
@@ -142,11 +148,13 @@
 	<div>
 		{#if data.about.exhibitions}
 			<div class="wrapper publications-wrapper {activeSection === 'publications' ? 'active' : ''}" style="--maxHeight: {heights['publications'] || 0}px">
-				<h2 class="section-title" onclick={() => toggleSection('publications')}>Publications
-					<div class="icon">
-						<div class="line horizontal"></div>
-						<div class="line vertical"></div>
-					</div>
+				<h2 class="section-title">
+					<button onclick={() => toggleSection('publications')}>Publications
+						<div class="icon">
+							<div class="line horizontal"></div>
+							<div class="line vertical"></div>
+						</div>
+					</button>
 				</h2>
 				<div class="publications opener portableText" bind:this={elements['publications']}>
 					{#each data.about.publications as publication, i}
@@ -172,6 +180,7 @@
 		min-height: calc(100vh - var(--footerHeight));
 
 		@media (width <= 1080px) {
+			padding: var(--sp-100) var(--sp-12) var(--sp-16);
 			flex-direction: column;
 			row-gap: 5em;
 		}
@@ -181,45 +190,43 @@
 
 		.section-title {
 			margin-bottom: 1em;
-			display: flex;
-			justify-content: space-between;
+			pointer-events: none;
 
 			@media (width <= 678px) {
-				cursor: pointer;
-
-				&:hover {
-					text-decoration: underline;
-				}
-			}
-
-			.icon {
-				display: none;
-				position: relative;
-				top: .1em;
-				width: .5em;
-				height: .5em;
-				
-				.line {
-					position: absolute;
-					background-color: currentColor;
-					transition: var(--transition);
-					&.horizontal { width: 100%; height: 1.2px; top: 50%; left: 0; transform: translateY(-50%); }
-					&.vertical { width: 1.2px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
-				}
-
-				@media (width <= 678px) {
-					display: inline-block;
-				}
-			}
-
-			@media (width <= 678px) {
+				pointer-events: all;
 				margin: 0;
 				padding: .5em 0;
+
+				@media (hover: hover) {
+					&:hover {
+						text-decoration: underline;
+					}
+				}
 			}
 
-			@media (cursor: pointer) {
-				&:hover {
-					text-decoration: underline;
+			button {
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+
+				.icon {
+					display: none;
+					position: relative;
+					top: .1em;
+					width: .5em;
+					height: .5em;
+					
+					.line {
+						position: absolute;
+						background-color: currentColor;
+						transition: var(--transition);
+						&.horizontal { width: 100%; height: 1.2px; top: 50%; left: 0; transform: translateY(-50%); }
+						&.vertical { width: 1.2px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+					}
+
+					@media (width <= 678px) {
+						display: inline-block;
+					}
 				}
 			}
 		}

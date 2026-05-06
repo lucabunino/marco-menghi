@@ -25,7 +25,7 @@
     {@render children()}
 {/if}
 
-<style>
+<style lang="scss">
 	:global(.portableText.policy p + p) {
         margin-top: 1.1em;
     }

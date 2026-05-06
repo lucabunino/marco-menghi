@@ -105,7 +105,7 @@
 	{/if}
 </main>
 
-<style>
+<style lang="scss">
 	#works {
 		min-height: calc(100vh - var(--footerHeight));
 		padding: var(--sp-168) var(--sp-16) var(--sp-16);
@@ -144,10 +144,12 @@
 				opacity: 1;
 			}
 
-			&:hover {
-				.title {
-					opacity: 1;
-					transition: none;
+			@media (hover: hover) {
+				&:hover {
+					.title {
+						opacity: 1;
+						transition: none;
+					}
 				}
 			}
 		}
@@ -274,8 +276,10 @@
 					}
 				}
 			}
-			&:hover>* {
-				text-decoration: underline;
+			@media (hover: hover) {
+				&:hover>* {
+					text-decoration: underline;
+				}
 			}
 		}
 	}

@@ -23,7 +23,7 @@
     {@render children()}
 {/if}
 
-<style>
+<style lang="scss">
     :global(.portableText p + p) {
         margin-top: .428em;
     }

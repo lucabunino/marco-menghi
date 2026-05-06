@@ -2,7 +2,7 @@ export async function GET() {
 	return new Response(`
 	User-agent: *
 	Disallow: /cgi-bin/
-	Sitemap: https://modenafilmfestival.it/sitemap.xml
+	Sitemap: https://www.marcomenghi.com/sitemap.xml
 	`,
 		{
 			headers: {

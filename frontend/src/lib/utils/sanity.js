@@ -120,6 +120,13 @@ export async function getWorks() {
         }`
     );
 }
+export async function getWorksSlugs() {
+    return await client.fetch(
+        `*[_type == "work" && status == "public" && !(_id in path('drafts.**'))]|order(orderRank) {
+			slug,
+        }`
+    );
+}
 export async function getWork(slug) {
 	return await client.fetch(
 		`

@@ -97,7 +97,7 @@
     </div>
 </section>
 
-<style>
+<style lang="scss">
     #related {
         h3 {
             padding: var(--sp-l) var(--sp-m) var(--sp-s);

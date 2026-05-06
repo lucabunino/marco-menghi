@@ -76,7 +76,7 @@
         {@const isCurrent = i === index}
 
         <div class="img-wrapper">
-			<a href="/works/{image.work.slug.current}">
+			<a href="/works/{image.work?.slug.current}">
 				{#if image.wide}
 					{#if isPast || isCurrent}
 						{#key step}
@@ -102,7 +102,7 @@
     {/each}
 {:else}
 	{#each imagesMobile as imageMobile, i}
-		<a href="/works/{imageMobile.work.slug.current}">
+		<a href="/works/{imageMobile.work?.slug.current}">
 			<Image image={imageMobile.image} fit={'cover'} size={1080}/>
 		</a>
     {/each}

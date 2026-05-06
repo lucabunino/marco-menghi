@@ -83,10 +83,12 @@ html {
 		background-color: transparent;
 		border: solid 2px var(--white);
 	}
-	&:hover {
-		text-decoration: underline;
-		&::before {
-			background-color: var(--white);
+	@media (hover: hover) {
+		&:hover {
+			text-decoration: underline;
+			&::before {
+				background-color: var(--white);
+			}
 		}
 	}
 	&.active,
@@ -110,28 +112,6 @@ html {
 	.hover-fill-#{$name}:hover { fill: $value !important; }
 	.hover-stroke-#{$name}:hover { stroke: $value !important; }
 	.hover-border-#{$name}:hover { border: solid 1px $value !important; }
-}
-@each $from-name, $from-value in $colors {
-  @each $to-name, $to-value in $colors {
-    .gradient-y-#{$from-name}-#{$to-name} {
-      background: linear-gradient(to bottom, #{$from-value}, #{$to-value}) !important;
-    }
-    .gradient-x-#{$from-name}-#{$to-name} {
-      background: linear-gradient(to right, #{$from-value}, #{$to-value}) !important;
-    }
-    .gradient-xy-#{$from-name}-#{$to-name} {
-      background: linear-gradient(135deg, #{$from-value}, #{$to-value}) !important;
-    }
-    .hover-gradient-y-#{$from-name}-#{$to-name}:hover {
-      background: linear-gradient(to bottom, #{$from-value}, #{$to-value}) !important;
-    }
-    .hover-gradient-x-#{$from-name}-#{$to-name}:hover {
-      background: linear-gradient(to right, #{$from-value}, #{$to-value}) !important;
-    }
-    .hover-gradient-xy-#{$from-name}-#{$to-name}:hover {
-      background: linear-gradient(135deg, #{$from-value}, #{$to-value}) !important;
-    }
-  }
 }
 
 // General

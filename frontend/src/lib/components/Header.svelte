@@ -23,7 +23,7 @@
 					{/if}
 				</li>
 				<li class="about"><a class="menu-item hover-underline" aria-current={page.url.pathname.startsWith('/about') ? 'page' : undefined} href="/about" onclick={() => {menuer.setOpen(false)}}>About</a></li>
-				<li class="video"><a class="menu-item hover-underline" aria-current={page.url.pathname.startsWith('/video') ? 'page' : undefined} href="/video" onclick={() => {menuer.setOpen(false)}}>Video</a></li>
+				<!-- <li class="video"><a class="menu-item hover-underline" aria-current={page.url.pathname.startsWith('/video') ? 'page' : undefined} href="/video" onclick={() => {menuer.setOpen(false)}}>Video</a></li> -->
 			</ul>
 		{/if}
 		<div class="right-menu">
@@ -35,7 +35,7 @@
     </nav>
 </header>
 
-<style>
+<style lang="scss">
 header {
     nav {
 		mix-blend-mode: difference;
@@ -101,6 +101,10 @@ header {
 					transform: translateX(-50%);
 					column-gap: var(--sp-30);
 					display: flex;
+					width: 100%;
+                    justify-content: center;
+                    background-color: var(--white);
+					padding-bottom: var(--sp-12);
 
 					.comma {
 						display: none;
