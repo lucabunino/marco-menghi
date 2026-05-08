@@ -103,12 +103,12 @@
             backdrop-filter: saturate(0) invert(1) blur(20px);
         }
 		
-		@media (hover: hover) {
+		// @media (hover: hover) {
 			&.hover:hover .overlay {
 				backdrop-filter: saturate(0) invert(1) brightness(.8);
 				transition: none;
 			}
-		}
+		// }
 
         img {
             position: relative;
