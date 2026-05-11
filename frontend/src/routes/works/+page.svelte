@@ -144,12 +144,10 @@
 				opacity: 1;
 			}
 
-			@media (hover: hover) {
-				&:hover {
-					.title {
-						opacity: 1;
-						transition: none;
-					}
+			&:hover {
+				.title {
+					opacity: 1;
+					transition: none;
 				}
 			}
 		}
