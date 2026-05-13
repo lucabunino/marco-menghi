@@ -95,7 +95,7 @@
 				max-height: calc(100svh - (var(--headerHeight) + var(--sp-12) + (var(--sp-24)*2 + 1.142rem*1.15)*2));
 			}
 			@media (width <= 1080px) and (orientation: landscape) {
-				height: 100vh;
+				height: 100svh;
 				max-height: unset;
 			}
 		}

@@ -212,7 +212,7 @@
 			position: relative;
 			margin-top: var(--headerHeight);
 			padding-top: var(--sp-12);
-			min-height: calc(100svh - var(--headerHeight) - var(--sp-12));
+			// min-height: calc(100svh - var(--headerHeight) - var(--sp-12));
 		}
 
 		.indicator {
@@ -272,7 +272,7 @@
 			}
 
 			@media (width <= 1080px) and (orientation: landscape) {
-				height: 100vh;
+				height: 100svh;
 				max-height: unset;
 			}
 		}
