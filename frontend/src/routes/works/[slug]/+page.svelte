@@ -43,6 +43,23 @@
         }
     });
 
+	let cursorClass = $state('default');
+	function handleMouseMove(e) {
+		if (innerWidth.current < 1080) {
+			cursorClass = 'default';
+			return;
+		}
+
+		const { clientX } = e;
+		const midpoint = innerWidth.current / 2;
+
+		if (clientX > midpoint) {
+			cursorClass = 'next';
+		} else {
+			cursorClass = 'prev';
+		}
+	}
+
     function handleSlideChange(e) {
         const [swiper] = e.detail;
         if (swiper.realIndex !== index) {
@@ -100,7 +117,8 @@
 </Head>
 
 <main>
-	<div id="work" role="button" tabindex="0" onclick={handleClick} aria-label="Project Gallery" onkeydown={(e) => {
+	<div style:cursor={cursorClass === 'next' ? 'e-resize' : cursorClass === 'prev' ? 'w-resize' : 'default'}
+	id="work" role="button" tabindex="0" onclick={handleClick} onmousemove={(e) => {handleMouseMove(e)}} aria-label="Project Gallery" onkeydown={(e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
             navigate('next');
@@ -228,7 +246,7 @@
 			color: white;
 			mix-blend-mode: difference;
 
-			@media (width <= 1080px) {
+			@media (width <= 1080px) and (orientation: portrait) {
 				position: relative;
 				transform: none;
 				top: unset;
@@ -237,14 +255,14 @@
 			}
 
 			.title {
-				@media (width <= 1080px) {
+				@media (width <= 1080px) and (orientation: portrait) {
 					width: calc(100% - 6rem);
 				}
 
 				.moreInfo-switch-mobile {
 					display: none;
 
-					@media (width <= 1080px) {
+					@media (width <= 1080px) and (orientation: portrait) {
 						display: inline-block;
 						pointer-events: all;
 						margin: calc(var(--sp-12)*-1) calc(var(--sp-12)*-1) calc(var(--sp-12)*-1) 0;
@@ -256,7 +274,7 @@
 			}
 
 			.index {
-				@media (width <= 1080px) {
+				@media (width <= 1080px) and (orientation: portrait) {
 					display: none;
 				}
 			}

@@ -127,7 +127,7 @@ header {
 			column-gap: var(--sp-40);
 
 			.close {
-				@media (width <= 1080px) {
+				@media (width <= 1080px) and (orientation: portrait) {
 					position: fixed;
 					top: calc(var(--headerHeight) + var(--sp-12));
 					right: 0;
