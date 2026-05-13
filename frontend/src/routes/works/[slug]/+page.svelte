@@ -19,6 +19,11 @@
         const n = parseInt(iParam);
         return (!isNaN(n) && n > 0) ? n - 1 : 0;
     });
+    let indexMobile = $derived.by(() => {
+        const iParam = page.url.searchParams.get('i');
+        const n = parseInt(iParam);
+        return (!isNaN(n) && n > 0) ? n - 1 : 0;
+    });
 
     let nextImageUrl = $derived.by(() => {
         if (!work?.images || work.images.length <= 1) return null;
@@ -139,16 +144,17 @@
 				slides-per-view="1"
 				speed="500"
 				loop="true"
+				initial-slide={index}
 			>
 				{#each work.images as image, i}
 					<swiper-slide>
 						<div class="img-wrapper">
-							<Image image={image} height={1080}/>
+							<Image image={image} height={1080} className={'swiper'}/>
 						</div>
 					</swiper-slide>
 				{/each}
 			</swiper-container>
-			<span class="index-mobile">{index + 1}/{work.images.length}</span>
+			<span class="index-mobile">{indexMobile + 1}/{work.images.length}</span>
 			<div class="nav-mobile">
 				<button onclick={(e) => { e.stopPropagation(); swiperEl.swiper.slidePrev(); }} aria-label="Previous slide">
 					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -264,6 +270,20 @@
 				height: auto;
 				max-height: calc(100svh - (var(--headerHeight) + var(--sp-12) + (var(--sp-24)*2 + 1.142rem*1.15)*2));
 			}
+
+			@media (width <= 1080px) and (orientation: landscape) {
+				height: 100vh;
+				max-height: unset;
+			}
+		}
+
+		swiper-container {
+			@media (width <= 1080px) and (orientation: landscape) {
+				position: fixed;
+				top: 0;
+				width: 100%;
+				height: stretch;
+			}
 		}
 
 		.index-mobile {
@@ -276,6 +296,7 @@
 				bottom: 0;
 				mix-blend-mode: difference;
 				color: white;
+				z-index: 1;
 			}
 
 		}

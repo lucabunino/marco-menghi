@@ -89,6 +89,17 @@
         overflow: hidden;
         display: block;
 
+		&.swiper {
+			@media (width <= 1080px) {
+				height: auto;
+				max-height: calc(100svh - (var(--headerHeight) + var(--sp-12) + (var(--sp-24)*2 + 1.142rem*1.15)*2));
+			}
+			@media (width <= 1080px) and (orientation: landscape) {
+				height: 100vh;
+				max-height: unset;
+			}
+		}
+
         .overlay {
             position: absolute;
             inset: 0;

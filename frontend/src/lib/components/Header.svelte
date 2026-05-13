@@ -50,7 +50,7 @@ header {
         z-index: 10;
 		padding: var(--sp-24) var(--sp-16);
 
-		@media (width <= 1080px) {
+		@media (width <= 1080px) and (orientation: portrait) {
 			color: var(--black);
 			mix-blend-mode: normal;
 			background-color: var(--white);
@@ -70,7 +70,7 @@ header {
 			transform: translateX(-50%);
 			z-index: 11;
 
-			@media (width <= 1080px) {
+			@media (width <= 1080px) and (orientation: portrait) {
 				position: fixed;
 				bottom: 0;
 				top: unset;
@@ -92,7 +92,7 @@ header {
 				width: fit-content;
 				column-gap: var(--sp-6);
 
-				@media (width <= 1080px) {
+				@media (width <= 1080px) and (orientation: portrait) {
 					bottom: unset;
 					position: fixed;
 					top: 0;
