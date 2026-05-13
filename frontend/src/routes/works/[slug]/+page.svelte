@@ -212,6 +212,7 @@
 			position: relative;
 			margin-top: var(--headerHeight);
 			padding-top: var(--sp-12);
+			overflow-y: hidden;
 			// min-height: calc(100svh - var(--headerHeight) - var(--sp-12));
 		}
 
