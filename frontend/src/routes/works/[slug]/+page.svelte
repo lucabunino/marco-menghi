@@ -1,7 +1,10 @@
 <script>
+    import { register } from 'swiper/element/bundle';
+    register();
+
     import Image from '$lib/components/Image.svelte';
     import Head from '$lib/components/Head.svelte';
-    import { innerWidth } from 'svelte/reactivity/window';
+    import { innerHeight, innerWidth } from 'svelte/reactivity/window';
     import { goto } from '$app/navigation';
     import { PortableText } from '@portabletext/svelte';
     import PortableTextStyle from '$lib/components/portableTextStyles/PortableTextStyle.svelte'; 
@@ -27,6 +30,21 @@
     let moreInfoHeight = $state(0);
     let moreInfo = $state(false);
 
+    let swiperEl = $state();
+
+    $effect(() => {
+        if (swiperEl && swiperEl.swiper && swiperEl.swiper.realIndex !== index) {
+            swiperEl.swiper.slideToLoop(index);
+        }
+    });
+
+    function handleSlideChange(e) {
+        const [swiper] = e.detail;
+        if (swiper.realIndex !== index) {
+            goto(`?i=${swiper.realIndex + 1}`, { keepFocus: true, noScroll: true, replaceState: true });
+        }
+    }
+
     function navigate(direction) {
         if (!work?.images) return;
         const total = work.images.length;
@@ -51,7 +69,7 @@
     }
 
     function handleClick(e) {
-        if (e.target.closest('#moreInfo')) return;
+        if (e.target.closest('#moreInfo') || e.target.closest('.nav-mobile')) return;
 
         const { clientX } = e;
         if (innerWidth.current >= 1080) {
@@ -60,8 +78,6 @@
             } else {
                 navigate('prev');
             }
-        } else {
-            navigate('next');
         }
     }
 
@@ -106,7 +122,7 @@
 			{/if}
 		</div>
 
-		{#if work.images}
+		{#if work.images && work.images.length > 0 && innerWidth.current >= 1080}
 			{#key index}
 				<div class="img-wrapper" 
 					style:aspect-ratio={work.images[index]?.asset?.metadata?.dimensions 
@@ -116,7 +132,35 @@
 					<Image image={work.images[index]} height={1920}/>
 				</div>
 			{/key}
+		{:else if work.images && work.images.length > 0 && innerWidth.current < 1080}
+			<swiper-container
+				bind:this={swiperEl}
+				onswiperslidechange={handleSlideChange}
+				slides-per-view="1"
+				speed="500"
+				loop="true"
+			>
+				{#each work.images as image, i}
+					<swiper-slide>
+						<div class="img-wrapper">
+							<Image image={image} height={1080}/>
+						</div>
+					</swiper-slide>
+				{/each}
+			</swiper-container>
 			<span class="index-mobile">{index + 1}/{work.images.length}</span>
+			<div class="nav-mobile">
+				<button onclick={(e) => { e.stopPropagation(); swiperEl.swiper.slidePrev(); }} aria-label="Previous slide">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+					</svg>
+				</button>
+				<button onclick={(e) => { e.stopPropagation(); swiperEl.swiper.slideNext(); }} aria-label="Next slide">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+					</svg>
+				</button>
+			</div>
 		{/if}
 	</div>
 </main>
@@ -158,7 +202,7 @@
 		user-select: none;
 		background-color: var(--white);
 
-		@media (width <= 678px) {
+		@media (width <= 1080px) {
 			position: relative;
 			margin-top: var(--headerHeight);
 			padding-top: var(--sp-12);
@@ -177,7 +221,7 @@
 			color: white;
 			mix-blend-mode: difference;
 
-			@media (width <= 678px) {
+			@media (width <= 1080px) {
 				position: relative;
 				transform: none;
 				top: unset;
@@ -186,14 +230,14 @@
 			}
 
 			.title {
-				@media (width <= 678px) {
+				@media (width <= 1080px) {
 					width: calc(100% - 6rem);
 				}
 
 				.moreInfo-switch-mobile {
 					display: none;
 
-					@media (width <= 678px) {
+					@media (width <= 1080px) {
 						display: inline-block;
 						pointer-events: all;
 						margin: calc(var(--sp-12)*-1) calc(var(--sp-12)*-1) calc(var(--sp-12)*-1) 0;
@@ -205,7 +249,7 @@
 			}
 
 			.index {
-				@media (width <= 678px) {
+				@media (width <= 1080px) {
 					display: none;
 				}
 			}
@@ -216,7 +260,7 @@
 			height: 100vh;
 			justify-self: center;
 
-			@media (width <= 678px) {
+			@media (width <= 1080px) {
 				height: auto;
 				max-height: calc(100svh - (var(--headerHeight) + var(--sp-12) + (var(--sp-24)*2 + 1.142rem*1.15)*2));
 			}
@@ -225,13 +269,43 @@
 		.index-mobile {
 			display: none;
 			
-			@media (width <= 678px) {
+			@media (width <= 1080px) {
 				display: block;
 				padding: var(--sp-24) var(--sp-12);
 				position: fixed;
 				bottom: 0;
+				mix-blend-mode: difference;
+				color: white;
 			}
 
+		}
+
+		.nav-mobile {
+			display: none;
+			
+			@media (width <= 1080px) {
+				display: flex;
+				position: fixed;
+				bottom: 0;
+				right: 0;
+				z-index: 10;
+				padding: var(--sp-12);
+
+				button {
+					display: flex;
+					background: none;
+					border: none;
+					cursor: pointer;
+					padding: var(--sp-12);
+					color: black;
+					opacity: 0;
+
+					svg {
+						width: 2rem;
+						height: 2rem;
+					}
+				}
+			}
 		}
 	}
 	#moreInfo {
@@ -241,7 +315,7 @@
 		z-index: 3;
 		width: 100%;
 
-		@media (width <= 678px) {
+		@media (width <= 1080px) {
 			position: absolute;
 			top: calc(var(--headerHeight) + var(--sp-12) + var(--sp-24)*2 + 1.142rem*1.15 - 1px);
 			bottom: unset;
@@ -275,7 +349,7 @@
 				padding-bottom: var(--sp-100);
 				pointer-events: all;
 
-				@media (width <= 678px) {
+				@media (width <= 1080px) {
 					max-height: calc(var(--moreInfoHeight) + var(--sp-20)*2 + 1.142rem*1.2);
 					padding: var(--sp-24) var(--sp-12);
 				}
@@ -288,13 +362,13 @@
 		}
 
 		.moreInfo-wrapper {
-			@media (width <= 678px) {
+			@media (width <= 1080px) {
 				padding: 0 var(--sp-12);
 			}
 
 			.moreInfo {
 				grid-column: 1 / span 4; grid-row: 2; max-width: 300px;
-				@media (width <= 678px) {
+				@media (width <= 1080px) {
 					max-height: calc(var(--moreInfoHeight) + var(--sp-20)*2 + 1.142rem*1.2);
 					padding: var(--sp-24) 0;
 					grid-column: 1 / span 6;
@@ -304,7 +378,7 @@
 			}
 			.year {
 				grid-column: 6 / span 1; grid-row: 2;
-				@media (width <= 678px) {
+				@media (width <= 1080px) {
 					grid-column: 6 / span 1;
 					grid-row: 1;
 					text-align: right;
@@ -312,14 +386,14 @@
 			}
 			.kind {
 				grid-column: 7 / span 2; grid-row: 2;
-				@media (width <= 678px) {
+				@media (width <= 1080px) {
 					grid-column: 1 / span 3;
 					grid-row: 1;
 				}
 			}
 			.city {
 				grid-column: 9 / span 2; grid-row: 2;
-				@media (width <= 678px) {
+				@media (width <= 1080px) {
 					grid-column: 4 / span 2;
 					grid-row: 1;
 					text-align: center;
@@ -349,7 +423,7 @@
 		font: inherit;
 		color: inherit;
 
-		@media (width <= 678px) {
+		@media (width <= 1080px) {
 			display: none;
 		}
 

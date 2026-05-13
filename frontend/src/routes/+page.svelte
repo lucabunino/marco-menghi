@@ -100,7 +100,7 @@
 			</a>
         </div>
     {/each}
-{:else}
+{:else if innerWidth.current < 1080}
 	{#each imagesMobile as imageMobile, i}
 		<a href="/works/{imageMobile.work?.slug.current}">
 			<Image image={imageMobile.image} fit={'cover'} size={1080}/>
@@ -142,6 +142,7 @@
     .img {
         position: absolute;
         inset: 0;
+		width: 100%;
         height: 100%;
         opacity: 1;
         z-index: 1;
