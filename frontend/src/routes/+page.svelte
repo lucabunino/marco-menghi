@@ -109,7 +109,7 @@
 {/if}
 </main>
 
-<style>
+<style lang="scss">
     #homepage {
         position: fixed;
         left: 0;

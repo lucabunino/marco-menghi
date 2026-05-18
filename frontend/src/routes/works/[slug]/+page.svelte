@@ -225,12 +225,15 @@
 		left: 0;
 		user-select: none;
 		background-color: var(--white);
+		display: grid;
+		justify-content: center;
 
 		@media (width <= 1080px) {
 			position: relative;
 			margin-top: var(--headerHeight);
 			padding-top: var(--sp-12);
 			overflow-y: hidden;
+			display: block;
 			// min-height: calc(100svh - var(--headerHeight) - var(--sp-12));
 		}
 
