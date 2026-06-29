@@ -234,6 +234,7 @@
 			padding-top: var(--sp-12);
 			overflow-y: hidden;
 			display: block;
+			height: fit-content;
 			// min-height: calc(100svh - var(--headerHeight) - var(--sp-12));
 		}
 
@@ -290,12 +291,12 @@
 
 			@media (width <= 1080px) {
 				height: auto;
-				max-height: calc(100svh - (var(--headerHeight) + var(--sp-12) + (var(--sp-24)*2 + 1.142rem*1.15)*2));
+				display: flex;
+				justify-content: center;
 			}
 
 			@media (width <= 1080px) and (orientation: landscape) {
 				height: 100svh;
-				max-height: unset;
 			}
 		}
 

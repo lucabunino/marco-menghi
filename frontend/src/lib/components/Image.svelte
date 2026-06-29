@@ -56,12 +56,13 @@
     let isLoaded = $state(false);
 </script>
 
-<div 
+<div
     class="image-wrapper {className}"
     class:is-loading={!isLoaded}
     class:hover={hover}
     style:background-image="url({lqip})"
     style:aspect-ratio={finalRatio}
+    style:--ratio={finalRatio}
 >
     <div class="overlay"></div>
 
@@ -92,11 +93,11 @@
 		&.swiper {
 			@media (width <= 1080px) {
 				height: auto;
-				max-height: calc(100dvh - (var(--headerHeight) + var(--sp-12) + (var(--sp-24)*2 + 1.142rem*1.15)*2));
+				width: min(100%, calc((100dvh - (var(--headerHeight) + var(--sp-12) + (var(--sp-24)*2 + 1.142rem*1.15)*2)) * var(--ratio)));
 			}
 			@media (width <= 1080px) and (orientation: landscape) {
 				height: 100dvh;
-				max-height: unset;
+				width: 100%;
 			}
 		}
 
